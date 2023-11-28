@@ -1,0 +1,77 @@
+#!/bin/bash
+
+PrintHeader() {
+    echo
+    echo "======================================================================================"
+    echo "LDAP"
+    echo "======================================================================================"
+    echo
+    echo "## Authors"
+    echo "    - Daniel Murphy (dannymurphy_7@icloud.com)"
+    echo
+    echo "======================================================================================"
+    echo
+}
+
+PrintHelp() {
+    echo
+    echo "## Allowed subcommands:"
+    echo "    ls"
+    echo
+    echo "    --bootstrap"
+    echo
+}
+
+Configure() {
+    . /etc/environment
+}
+
+RunLDAPSearch() {
+    ldapsearch $LDAP_FLAGS $@
+}
+
+Bootstrap() {
+    echo "[Bootstrap] Applying LDAP manifest - /opt/bitnami/openldap/etc/manifest/manifest-ldapmodify-access-role-admin-ldap.ldif"
+    
+    ldapmodify $LDAP__FLAGS -f /opt/bitnami/openldap/etc/manifest/manifest-ldapmodify-access-role-admin-ldap.ldif \
+        || true
+
+    echo "[Bootstrap] Updating LDAP admin password ... "
+
+    ldapmodify $LDAP_FLAGS <<EOF
+dn: uid=admin-ldap,ou=users,dc=danny,dc=io
+changetype: modify
+replace: userPassword
+userPassword: $LDAP_ADMIN_PASSWORD
+EOF
+}
+
+app() {
+    PrintHeader
+
+    if [ -z "$1" ] || [ "$1" == "--help" ]; then
+        PrintHelp
+        exit 0
+    fi
+
+    Configure
+
+    subcommand=$1
+    shift
+
+    case $subcommand in
+
+	    ls)
+	        RunLDAPSearch $@
+            ;;
+        
+        --bootstrap)
+            Bootstrap $@
+            ;;
+
+    esac
+}
+
+if [ "${BASH_SOURCE[0]}" == "$0" ]; then
+    app $@
+fi

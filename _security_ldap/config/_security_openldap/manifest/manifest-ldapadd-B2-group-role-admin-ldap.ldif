@@ -1,0 +1,6 @@
+dn: cn=role-admin-ldap,ou=groups,dc=danny,dc=io
+objectClass: groupOfNames
+cn: role-admin-ldap
+description: role-admin-ldap
+owner: uid=admin-ldap,ou=users,dc=danny,dc=io
+member: uid=admin-ldap,ou=users,dc=danny,dc=io

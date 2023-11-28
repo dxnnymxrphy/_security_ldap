@@ -1,0 +1,12 @@
+dn: uid=viewer-ldap,ou=users,dc=danny,dc=io
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: viewer-ldap
+sn: viewer-ldap
+cn: viewer-ldap
+givenName: viewer-ldap
+displayName: viewer-ldap
+mail: viewer-ldap@danny.io
+userPassword: password

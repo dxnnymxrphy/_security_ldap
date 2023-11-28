@@ -1,0 +1,6 @@
+dn: cn=role-viewer-ldap,ou=groups,dc=keplercheuvreux,dc=com
+objectClass: groupOfNames
+cn: role-viewer-ldap
+description: role-viewer-ldap
+owner: uid=viewer-ldap,ou=users,dc=keplercheuvreux,dc=com
+member: uid=viewer-ldap,ou=users,dc=keplercheuvreux,dc=com

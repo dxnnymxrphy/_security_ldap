@@ -1,0 +1,10 @@
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: {0}
+  to dn.children="dc=danny,dc=io" 
+  by group.exact="cn=role-admin-ldap,ou=groups,dc=danny,dc=io" write
+  by * read
+olcAccess: {1}
+  to * 
+  by * read

@@ -1,0 +1,12 @@
+dn: uid=admin-ldap,ou=users,dc=danny,dc=io
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: admin-ldap
+sn: admin-ldap
+cn: admin-ldap
+givenName: admin-ldap
+displayName: admin-ldap
+mail: admin-ldap@danny.io
+userPassword: password

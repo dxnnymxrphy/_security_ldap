@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  #######################################################################
+  ### services :: _security_openldap
+  ####################################################################### 
+  _security_openldap:
+    image: bitnami/openldap:2.6.3
+    privileged: true
+    restart: always
+    hostname: openldap
+    env_file:
+    - $PWD/.secret/__envrc.d/credential._security_openldap.envrc
+    - $PWD/config/__envrc.d/_security_openldap.envrc
+    networks:
+    - _network-bridge-local
+    ports:
+    - 127.0.0.1:1389:1389
+    volumes:
+    - _volume__security_openldap:/bitnami/openldap
+    - $PWD/config/_security_openldap/rootfs/etc/environment:/etc/environment:ro
+    - $PWD/config/_security_openldap/rootfs/bin/ldap:/bin/ldap
+    - $PWD/config/_security_openldap/ldap.conf:/opt/bitnami/openldap/etc/ldap.conf:ro
+    - $PWD/config/_security_openldap/manifest/:/opt/bitnami/openldap/etc/manifest/:ro
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1.0'
+  
+  #######################################################################
+  ### services :: _security_openldapui
+  ####################################################################### 
+  _security_openldapui:
+    image: dnknth/ldap-ui:latest@sha256:77fc931c14bcc5514c302c1dc8249d7549c8b10929c9a25b4e83bb408c6f8fa7
+    privileged: true
+    restart: always
+    env_file:
+    - $PWD/config/__envrc.d/_security_openldapui.envrc
+    networks:
+    - _network-bridge-local
+    ports:
+    - 127.0.0.1:51389:5000
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1.0'
+
+networks:
+  _network-bridge-local:
+    driver: bridge
+
+volumes:
+  _volume__security_openldap: {}

@@ -1,0 +1,14 @@
+[Unit]
+Description=security-ldap
+Wants=network-online.target
+After=network-online.target docker.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/danny/.danny/src/github.com/_security_ldap/_security_ldap      
+ExecStart=/bin/bash -c 'docker compose up'
+ExecStop=/bin/bash -c 'docker compose down'
+Restart=always
